@@ -56,7 +56,8 @@ Follow these steps to set up the project locally:
 
 5. **Open your browser: Navigate to http://localhost:3000 to see the app in action.**
 
-**_Usage_**
+**Usage**
+
 Sign Up / Log In: Create an account or log in using your credentials.
 Start Chatting: Join existing chat rooms or create new ones.
 Profile Settings: Customize your profile by updating your picture and status.
