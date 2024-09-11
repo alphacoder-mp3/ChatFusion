@@ -38,9 +38,7 @@ Follow these steps to set up the project locally:
 
 2. **Install dependencies:**
 
-   ```npm install
-
-   ```
+   `bash npm install`
 
 3. **Set up environment variables: Create a .env file in the root directory and add the following:**
 
@@ -54,7 +52,7 @@ Follow these steps to set up the project locally:
 
 4. **Run the development server:**
 
-`npm run dev `
+`bash npm run dev`
 
 5. **Open your browser: Navigate to http://localhost:3000 to see the app in action.**
 
