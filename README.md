@@ -29,7 +29,60 @@ Welcome to the Real-Time Chat Web App! This application is built using **Next.js
 Follow these steps to set up the project locally:
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   cd real-time-chat-exp
+
    ```
+
+2. **Install dependencies:**
+
+   ```npm install
+
+   ```
+
+3. **Set up environment variables: Create a .env file in the root directory and add the following:**
+
+   ````DATABASE_URL=your_mongodb_connection_string
+   NEXTAUTH_SECRET=your_nextauth_secret
+   PUSHER_APP_ID=your_pusher_app_id
+   PUSHER_KEY=your_pusher_key
+   PUSHER_SECRET=your_pusher_secret
+   PUSHER_CLUSTER=your_pusher_cluster```
+   ````
+
+4. **Run the development server:**
+
+`npm run dev `
+
+5. **Open your browser: Navigate to http://localhost:3000 to see the app in action.**
+
+**_Usage_**
+Sign Up / Log In: Create an account or log in using your credentials.
+Start Chatting: Join existing chat rooms or create new ones.
+Profile Settings: Customize your profile by updating your picture and status.
+
+**Contributing**
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+1. Create a new branch (git checkout -b feature-branch).
+1. Make your changes and commit them (git commit -m 'Add new feature').
+1. Push to the branch (git push origin feature-branch).
+1. Open a pull request.
+
+**License**
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+**Acknowledgements**
+Next.js
+Tailwind CSS
+NextAuth
+Pusher
+MongoDB
+
+```
+
+```
