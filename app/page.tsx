@@ -1,3 +1,4 @@
+import { Chat } from '@/components/chat';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
           </li>
           <li>Send your message instantly.</li>
         </ol>
+        <Chat />
       </main>
     </div>
   );

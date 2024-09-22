@@ -5,8 +5,8 @@ import { io } from 'socket.io-client';
 
 export const socket = io();
 
-export default function Home() {
-  const [isConnected, setIsConnected] = useState(false);
+export function Chat() {
+  const [isConnected, setIsConnected] = useState(socket.connected); // if at all socket.connected gives warning or errors we can set it to false instead in that case
   const [transport, setTransport] = useState('N/A');
 
   useEffect(() => {
