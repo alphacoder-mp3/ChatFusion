@@ -8,6 +8,7 @@ import {
   ServerToClientEvents,
   SocketData,
 } from '@/types/socketTypes';
+import { Messages } from '@/types/chatMessageTypes';
 
 const hostname = 'localhost';
 const port = parseInt(process.env.PORT || '3000', 10);
@@ -29,9 +30,10 @@ app.prepare().then(() => {
   >(httpServer);
 
   io.on('connection', socket => {
-    socket.on('message', (value: string) => {
+    socket.on('message', (value: Messages) => {
       console.log('message received', value);
-      socket.emit('message', value);
+      // socket.broadcast.emit('message', value); // Broadcast to all clients except the sender
+      io.emit('message', value); // Broadcast to all clients, including the sender
     });
 
     socket.emit('noArg');
