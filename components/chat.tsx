@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, FormEvent } from 'react';
 import { io } from 'socket.io-client';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export const socket = io();
 
@@ -69,11 +70,11 @@ export function Chat() {
           <strong>{msg.sender}:</strong> {msg.content}
         </div>
       ))}
-      <form onSubmit={handleSubmit} ref={formRef}>
-        <input
+      <form onSubmit={handleSubmit} ref={formRef} className="mt-8 inline-flex">
+        <Input
           type="text"
           name="message"
-          className="mr-2 rounded border p-2"
+          className="mr-2 rounded border p-2 border-none shadow-lg"
           placeholder="Type a message"
         />
         <Button type="submit" className="rounded px-4 py-2 shadow-lg">
