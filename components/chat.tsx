@@ -4,10 +4,9 @@ import { useEffect, useState, useRef, FormEvent } from 'react';
 import { io } from 'socket.io-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Messages } from '@/types/chatMessageTypes';
 
 export const socket = io();
-
-type Messages = { sender: string; content: string };
 
 export function Chat() {
   const [isConnected, setIsConnected] = useState(socket.connected); // if at all socket.connected gives warning or errors we can set it to false instead in that case
