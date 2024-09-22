@@ -1,13 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, FormEvent } from 'react';
 import { io } from 'socket.io-client';
+import { Button } from '@/components/ui/button';
 
 export const socket = io();
+
+type Messages = { sender: string; content: string };
 
 export function Chat() {
   const [isConnected, setIsConnected] = useState(socket.connected); // if at all socket.connected gives warning or errors we can set it to false instead in that case
   const [transport, setTransport] = useState('N/A');
+  const [messages, setMessages] = useState<Array<Messages>>([]);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (socket.connected) {
@@ -20,6 +25,11 @@ export function Chat() {
 
       socket.io.engine.on('upgrade', transport => {
         setTransport(transport.name);
+      });
+
+      // socket.emit('message', { sender: 'User', content: 'world' }); // emitting message as component gets mounted
+      socket.on('message', (value: Messages) => {
+        setMessages(prev => [...prev, value]);
       });
     }
 
@@ -37,10 +47,39 @@ export function Chat() {
     };
   }, []);
 
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const message = formData.get('message') as string;
+
+    if (message.trim()) {
+      const messageData = { sender: 'User', content: message };
+      socket.emit('message', messageData);
+      // await sendMessage(formData);  // this is when we setup a backend to store these messages
+      formRef.current?.reset();
+    }
+  };
+
   return (
     <div>
       <p>Status: {isConnected ? 'connected' : 'disconnected'}</p>
       <p>Transport: {transport}</p>
+      {messages.map((msg, i) => (
+        <div key={i} className="mb-2">
+          <strong>{msg.sender}:</strong> {msg.content}
+        </div>
+      ))}
+      <form onSubmit={handleSubmit} ref={formRef}>
+        <input
+          type="text"
+          name="message"
+          className="mr-2 rounded border p-2"
+          placeholder="Type a message"
+        />
+        <Button type="submit" className="rounded px-4 py-2 shadow-lg">
+          Send
+        </Button>
+      </form>
     </div>
   );
 }

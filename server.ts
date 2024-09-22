@@ -29,8 +29,9 @@ app.prepare().then(() => {
   >(httpServer);
 
   io.on('connection', socket => {
-    socket.on('hello', () => {
-      console.log('Hello received');
+    socket.on('message', (value: string) => {
+      console.log('message received', value);
+      socket.emit('message', value);
     });
 
     socket.emit('noArg');
