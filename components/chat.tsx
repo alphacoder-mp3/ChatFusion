@@ -13,6 +13,7 @@ export function Chat() {
   const [transport, setTransport] = useState('N/A');
   const [messages, setMessages] = useState<Array<Messages>>([]);
   const formRef = useRef<HTMLFormElement>(null);
+  const [typingUsers, setTypingUsers] = useState(''); //1
 
   useEffect(() => {
     if (socket.connected) {
@@ -30,6 +31,16 @@ export function Chat() {
       // socket.emit('message', { sender: 'User', content: 'world' }); // emitting message as component gets mounted
       socket.on('message', (value: Messages) => {
         setMessages(prev => [...prev, value]);
+      });
+
+      socket.on('typing', ({ username }) => {
+        // setTypingUsers(prev => [...prev, username]); //2
+        setTypingUsers(username);
+      });
+
+      socket.on('stop typing', () => {
+        // setTypingUsers(prev => prev.filter(user => user !== username)); //3
+        setTypingUsers('');
       });
     }
 
@@ -55,26 +66,47 @@ export function Chat() {
     if (message.trim()) {
       const messageData = { sender: 'User', content: message };
       socket.emit('message', messageData);
+      socket.emit('stop typing'); // 4
       // await sendMessage(formData);  // this is when we setup a backend to store these messages
       formRef.current?.reset();
     }
+  };
+
+  const handleTyping = () => {
+    socket.emit('typing'); //5
+    let typingTimeout = undefined;
+    if (typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit('stop typing');
+    }, 1000); // Stop typing after 1 second of inactivity
   };
 
   return (
     <div>
       <p>Status: {isConnected ? 'connected' : 'disconnected'}</p>
       <p>Transport: {transport}</p>
-      {messages.map((msg, i) => (
-        <div key={i} className="mb-2">
-          <strong>{msg.sender}:</strong> {msg.content}
-        </div>
-      ))}
+      <div className="mt-4">
+        {messages.map((msg, i) => (
+          <div key={i} className="mb-2">
+            <strong>{msg.sender}:</strong> {msg.content}
+          </div>
+        ))}
+        {typingUsers && (
+          <div className="text-gray-500">{typingUsers} is typing...</div> // 6
+        )}
+        {/* {typingUsers.map((user, i) => (
+          <div key={i} className="text-gray-500">
+            {user} is typing...
+          </div>
+        ))} */}
+      </div>
       <form onSubmit={handleSubmit} ref={formRef} className="mt-8 inline-flex">
         <Input
           type="text"
           name="message"
           className="mr-2 rounded border p-2 border-none shadow-lg"
           placeholder="Type a message"
+          onInput={handleTyping} //7
         />
         <Button type="submit" className="rounded px-4 py-2 shadow-lg">
           Send

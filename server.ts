@@ -29,11 +29,33 @@ app.prepare().then(() => {
     SocketData
   >(httpServer);
 
+  let userCount = 0; // 1, Added this for server side handling of dynamic usernames, will be removed once we implement auth, then users value will come from front end
+  const users = new Map(); // 2
+
   io.on('connection', socket => {
+    userCount++; //3
+    const username = `user${userCount}`; //4
+    users.set(socket.id, username); //5
+    console.log(`${username} connected`); //6
+
     socket.on('message', (value: Messages) => {
       console.log('message received', value);
       // socket.broadcast.emit('message', value); // Broadcast to all clients except the sender
-      io.emit('message', value); // Broadcast to all clients, including the sender
+      // io.emit('message', value); // Broadcast to all clients, including the sender
+      io.emit('message', { sender: username, content: value.content }); //7
+    });
+
+    socket.on('typing', () => {
+      socket.broadcast.emit('typing', { username }); //8
+    });
+
+    socket.on('stop typing', () => {
+      socket.broadcast.emit('stop typing', { username }); //9
+    });
+
+    socket.on('disconnect', () => {
+      console.log(`${username} disconnected`);
+      users.delete(socket.id); //10
     });
 
     socket.emit('noArg');
