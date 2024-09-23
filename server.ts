@@ -7,8 +7,8 @@ import {
   InterServerEvents,
   ServerToClientEvents,
   SocketData,
-} from '@/types/socketTypes';
-import { Messages } from '@/types/chatMessageTypes';
+} from '@/types/socket-types';
+import { Messages } from '@/types/chat-message-types';
 
 const hostname = 'localhost';
 const port = parseInt(process.env.PORT || '3000', 10);

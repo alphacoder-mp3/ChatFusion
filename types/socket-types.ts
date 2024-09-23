@@ -1,4 +1,4 @@
-import { Messages } from '@/types/chatMessageTypes';
+import { Messages } from '@/types/chat-message-types';
 export interface ServerToClientEvents {
   noArg: () => void;
   basicEmit: (a: number, b: string, c: Buffer) => void;

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, FormEvent } from 'react';
 import { io } from 'socket.io-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Messages } from '@/types/chatMessageTypes';
+import { Messages } from '@/types/chat-message-types';
 
 export const socket = io();
 
