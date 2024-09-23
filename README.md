@@ -42,13 +42,12 @@ Follow these steps to set up the project locally:
 
 3. **Set up environment variables: Create a .env file in the root directory and add the following:**
 
-   ````DATABASE_URL=your_mongodb_connection_string
+   Although, at this moment we can proceed without .env, as we don't have db and auth setup. We have developed MVP realtime chats with next and socket
+
+   ```
+   DATABASE_URL=your_db_connection_string
    NEXTAUTH_SECRET=your_nextauth_secret
-   PUSHER_APP_ID=your_pusher_app_id
-   PUSHER_KEY=your_pusher_key
-   PUSHER_SECRET=your_pusher_secret
-   PUSHER_CLUSTER=your_pusher_cluster```
-   ````
+   ```
 
 4. **Run the development server:**
 
