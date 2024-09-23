@@ -91,9 +91,11 @@ export function Chat() {
             <strong>{msg.sender}:</strong> {msg.content}
           </div>
         ))}
-        {typingUsers && (
-          <div className="text-gray-500">{typingUsers} is typing...</div> // 6
-        )}
+        <div className="h-2">
+          {typingUsers && (
+            <div className="text-gray-500">{typingUsers} is typing...</div> // 6
+          )}
+        </div>
         {/* {typingUsers.map((user, i) => (
           <div key={i} className="text-gray-500">
             {user} is typing...
