@@ -1,6 +1,10 @@
 'use server';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
+import { createClient } from 'redis';
+
+const redisClient = createClient({ url: process.env.REDIS_URL });
+redisClient.connect();
 
 export async function createGroup(formData: FormData) {
   const name = formData.get('name') as string;
@@ -79,6 +83,10 @@ export async function sendMessage(formData: FormData) {
   }
 
   try {
+    await redisClient.publish(
+      'chat_messages',
+      JSON.stringify({ senderId, content })
+    );
     const newMessage = await prisma.message.create({
       data: {
         content,
