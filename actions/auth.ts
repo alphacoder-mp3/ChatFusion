@@ -1,3 +1,4 @@
+'use server';
 import { NextResponse } from 'next/server';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
