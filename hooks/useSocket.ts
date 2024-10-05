@@ -20,9 +20,8 @@ export const useSocket = () => {
   > | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token'); // Assume you store the JWT in localStorage
-    const newSocket = io('http://localhost:3000', {
-      auth: { token },
+    const newSocket = io('http://localhost:3001', {
+      withCredentials: true,
     });
     setSocket(newSocket);
 
