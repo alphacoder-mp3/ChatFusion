@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import prisma from '@/lib/db';
+import { cookies } from 'next/headers';
 
 export async function register(formData: FormData) {
   const username = formData.get('username') as string;
@@ -91,6 +92,14 @@ export async function login(formData: FormData) {
 
     const token = sign({ userId: user.id }, process.env.JWT_SECRET!, {
       expiresIn: '1d',
+    });
+
+    cookies().set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 86400, // 1 day
+      path: '/',
     });
 
     return NextResponse.json({
